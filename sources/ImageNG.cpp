@@ -5,29 +5,13 @@
 using namespace std;
 #include "ImageNG.h"
 #include "MyQT.h"
-//#include "Dimension.h"
 
 
 
 
-//				GET 
 
-
-int ImageNG::getId() const
-{
-	return id;
-}
-char* ImageNG::getNom()const
-{
-	return nom;
-}
-Dimension ImageNG::getDimension()const
-{
-	return dimension;
-}
-
-int ImageNG::getL_MAX(){return 500;};
-int ImageNG::getH_MAX(){return 500;};
+int ImageNG::getL_MAX(){return 650;};
+int ImageNG::getH_MAX(){return 650;};
 
 
 int ImageNG::getLuminance()const
@@ -88,12 +72,8 @@ int ImageNG::getPixel(int x,int y)const
 }
 
 //						CONSTRUCTEUR
-ImageNG::ImageNG()
+ImageNG::ImageNG() : Image()
 {
-	setId(0);
-	nom = NULL;
-	setNom("default");
-	setDimension(Dimension(0,0));
 	for(int i=0;i<getL_MAX();i++)
 	{
 		for(int j=0; j<getH_MAX();j++)
@@ -101,33 +81,20 @@ ImageNG::ImageNG()
 			matrice[i][j]=0;
 		}
 	}
-
 }
 /////////// constructeur d'initialisation //////////
-ImageNG::ImageNG(int nombre, const char *n)
+ImageNG::ImageNG(int nombre, const char *n) :  Image(nombre, n)
 {
-	setId(nombre);
-	nom = NULL;
-	setNom(n);	
+
 }
 /////////// constructeur d'initialisation + dimension//////////
-ImageNG::ImageNG(int nombre, const char *n, Dimension d1)
+ImageNG::ImageNG(int nombre, const char *n, Dimension d1) :  Image(nombre, n, d1)
 {
 
-	setId(nombre);
-	nom = NULL;
-	setNom(n);	
-	setDimension(d1);
 }
 //////// constructeur de copie //////////////:
-ImageNG::ImageNG(const ImageNG& p)
+ImageNG::ImageNG(const ImageNG& p) :  Image(p)
 {
-
-	setId(p.getId());
-	nom = NULL;
-	setNom(p.getNom());	
-	setDimension(p.getDimension());
-
 	for(int i=0;i<dimension.getLargeur();i++)
 	{
 		for(int j=0; j<dimension.getHauteur();j++)
@@ -135,13 +102,10 @@ ImageNG::ImageNG(const ImageNG& p)
 			matrice[i][j]=p.matrice[i][j];
 		}
 	}
-	
 }
-ImageNG::ImageNG(const char* fichier) {
-	setId(1);
-	nom = NULL;
-	setNom(fichier);	
-    MyQT::ImportFromFile(*this, fichier);
+ImageNG::ImageNG(const char* fichier) :  Image(fichier)
+{
+	MyQT::ImportFromFile(*this, fichier);
 }
 
 bool ImageNG::compI(const ImageNG& i1, const char* op)
@@ -161,21 +125,21 @@ bool ImageNG::compI(const ImageNG& i1, const char* op)
     return true;
 	
 }
-//				SET
+// //				SET
 
-void ImageNG::setId(int nombre){id=nombre;}
+// void ImageNG::setId(int nombre){id=nombre;}
 
 
-void ImageNG::setNom(const char *n){ 
+// void ImageNG::setNom(const char *n){ 
 
-	if (nom) delete nom;
-	nom = new char[strlen(n)+1];
-	strcpy(nom,n);
-}
-void ImageNG::setDimension(Dimension d1) {
+// 	if (nom) delete nom;
+// 	nom = new char[strlen(n)+1];
+// 	strcpy(nom,n);
+// }
+// void ImageNG::setDimension(Dimension d1) {
 
-        dimension = d1;
-}
+//         dimension = d1;
+// }
 
 void ImageNG::setPixel(int x, int y, int val)
 {
@@ -334,30 +298,31 @@ std::ostream& operator<<(std::ostream& os,const ImageNG &i1){
 
 
 
-void ImageNG::Affiche()
+void ImageNG::Affiche()const
 {
 	cout << "id = " << getId() << endl;
 	if (nom == NULL) cout << "pointeur null" << endl;
 	cout << "nom = " << getNom() << endl;
  	cout << "Dimension = " << dimension.getLargeur() << " x " << dimension.getHauteur() << endl;
 }
-void ImageNG::Dessine() {
+void ImageNG::Dessine() const{
     MyQT::ViewImage(*this);
 }
 
-void ImageNG::importFromFile(const char* fichier) {
+void ImageNG::importFromFile(const char* fichier){
     MyQT::ImportFromFile(*this, fichier);
 }
 
-void ImageNG::exportToFile(const char* fichier, const char* format) {
+void ImageNG::exportToFile(const char* fichier, const char* format)const {
     MyQT::ExportToFile(*this, fichier, format);
 }
 
 //			DESTRUCTEUR 
 ImageNG::~ImageNG()
 {
-	cout << "D" << endl << endl;
-	if(nom) delete nom;
+	// cout << "D" << endl << endl;
+	// if(nom) delete nom;
+cout << "D ImageNG" << endl;
 
     for (int i = 0; i < getL_MAX(); i++) {
         for (int j = 0; j < getH_MAX(); j++) {

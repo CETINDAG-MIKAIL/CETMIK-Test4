@@ -4,7 +4,6 @@
 
 using namespace std;
 #include "Dimension.h"
-#include "ImageNG.h"
 //#include "MyQT.h"
 
 
@@ -63,7 +62,7 @@ Dimension::Dimension(const Dimension& p)
 /////////// Destructeur ////////////////////
 Dimension::~Dimension()
 {
-	cout << "D" << endl;
+	cout << "D Dimension" << endl;
 }
 
 int Dimension::getLargeur()const{return largeur;}
